@@ -101,6 +101,11 @@ echo "==> Instalando Golang..."
 wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
 sudo rm -rf /usr/local/go
 sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+rm go1.24.3.linux-amd64*
+
+# settings zshrc
+#golang path
+echo "==> Configurando PATH Golang..."
 if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" "$HOME/.profile"; then
     echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.profile
 fi
@@ -109,7 +114,14 @@ if test -f ~/.zshrc; then
         echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.zshrc
     fi
 fi
-rm go1.24.3.linux-amd64*
+
+# zsh aliases
+echo "==> Configurando ZSH Aliases..."
+echo "alias t=\"nohup ptyxis --working-directory . --tab >/dev/null 2>&1 &\"" >> ~/.zshrc
+
+# starship
+echo "==> Configurando Tema ZSH Starship..."
+echo "eval \"$(starship init zsh)\"" >> ~/.zshrc
 
 # Customizaćões GNOME
 echo "==> Instalando tema Orchis..."
