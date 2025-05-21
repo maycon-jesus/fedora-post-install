@@ -2,6 +2,11 @@
 
 set -e
 
+# Atualizando sistema
+echo "==> Atualizando o sistema..."
+sudo dnf update -y
+flatpak update -y
+
 echo "==> Configurando repositórios..."
 
 # VS Code
@@ -91,6 +96,22 @@ done
 
 fc-cache
 
+# Golang
+echo "==> Instalando Golang..."
+wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" "$HOME/.profile"; then
+    echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.profile
+fi
+if test -f ~/.zshrc; then
+    if ! grep -q "export PATH=\$PATH:/usr/local/go/bin" "$HOME/.zshrc"; then
+        echo "export PATH=\$PATH:/usr/local/go/bin" >> ~/.zshrc
+    fi
+fi
+rm go1.24.3.linux-amd64*
+
+# Customizaćões GNOME
 echo "==> Instalando tema Orchis..."
 wget https://github.com/vinceliuice/Orchis-theme/archive/refs/heads/master.zip -O orchis-theme.zip
 unzip orchis-theme.zip -d orchis-theme
@@ -106,18 +127,8 @@ unzip tela-icon.zip -d tela-icon
 rm -rf tela-icon*
 
 echo "==> Baixando wallpapers..."
-wget https://github.com/biglinux/extra-biglinux-wallpapers/archive/refs/heads/main.zip -O ~/Documents/wallpapers.zip
-unzip ~/Documents/wallpapers.zip -d ~/Documents/temp-wallpapers
-mv ~/Documents/temp-wallpapers/extra-biglinux-wallpapers-main/usr/share/wallpapers ~/Documents/wallpapers
-rm -rf ~/Documents/wallpapers.zip ~/Documents/temp-wallpapers
-
-echo "==> Script finalizado com sucesso!"
-echo "Extensões do Gnome para instalar manualmente:"
-echo " - AppIndicator and KStatusNotifierItem Support"
-echo " - Blur my Shell"
-echo " - Caffeine"
-echo " - Clipboard Indicator"
-echo " - GSConnect"
-echo " - Media Controls"
-echo " - Tilling Shell"
-echo " - User Themes"
+WALLPAPER_FOLDER=~/Pictures
+wget https://github.com/biglinux/extra-biglinux-wallpapers/archive/refs/heads/main.zip -O $WALLPAPER_FOLDER/wallpapers.zip
+unzip $WALLPAPER_FOLDER/wallpapers.zip -d $WALLPAPER_FOLDER/temp-wallpapers
+mv $WALLPAPER_FOLDER/temp-wallpapers/extra-biglinux-wallpapers-main/usr/share/wallpapers $WALLPAPER_FOLDER/wallpapers
+rm -rf $WALLPAPER_FOLDER/wallpapers.zip $WALLPAPER_FOLDER/temp-wallpapers
