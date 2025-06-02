@@ -1,0 +1,265 @@
+{
+    "dirs": {
+        "app": "~/Apps",
+        "bin": "~/bins"
+    },
+    "groups": [
+        {
+            "name": "Atualizando sistema",
+            "steps": [
+                {
+                    "type": "dnf-update"
+                },
+                {
+                    "type": "flatpak-update"
+                }
+            ]
+        },
+        {
+            "name": "Configurando Repositórios",
+            "steps": [
+                {
+                    "type": "write-file",
+                    "config": {
+                        "content": "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\nautorefresh=1\ntype=rpm-md\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc",
+                        "path": "/etc/yum.repos.d/vscode.repo",
+                        "sudo": true
+                    }
+                },
+                {
+                    "type": "dnf-install",
+                    "config": {
+                        "packages": [
+                            "dnf-plugins-core"
+                        ]
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "sudo dnf-3 config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando pacotes RPM",
+            "steps": [
+                {
+                    "type": "dnf-install",
+                    "config": {
+                        "packages": [
+                            "gnome-shell-extension-gsconnect",
+                            "gnome-tweaks",
+                            "code",
+                            "fish",
+                            "make",
+                            "fastfetch"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando pacotes Flatpak",
+            "steps": [
+                {
+                    "type": "flatpak-install",
+                    "config": {
+                        "packages": [
+                            [
+                                "flathub",
+                                "com.discordapp.Discord"
+                            ],
+                            [
+                                "flathub",
+                                "io.missioncenter.MissionCenter"
+                            ],
+                            [
+                                "flathub",
+                                "com.spotify.Client"
+                            ],
+                            [
+                                "flathub",
+                                "md.obsidian.Obsidian"
+                            ],
+                            [
+                                "flathub",
+                                "io.github.flattool.Warehouse"
+                            ],
+                            [
+                                "flathub",
+                                "org.gnome.Extensions"
+                            ],
+                            [
+                                "flathub",
+                                "com.mattjakeman.ExtensionManager"
+                            ],
+                            [
+                                "flathub",
+                                "com.surfshark.Surfshark"
+                            ],
+                            [
+                                "flathub",
+                                "org.gnome.Mahjongg"
+                            ],
+                            [
+                                "flathub",
+                                "org.telegram.desktop"
+                            ],
+                            [
+                                "flathub",
+                                "io.github.fabrialberio.pinapp"
+                            ]
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando pacotes RPM externos",
+            "steps": [
+                {
+                    "type": "dnf-install-external-rpms",
+                    "config": {
+                        "urls": [
+                            "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm",
+                            "https://downloads.1password.com/linux/rpm/stable/x86_64/1password-latest.rpm",
+                            "https://desktop.docker.com/linux/main/amd64/docker-desktop-x86_64.rpm"
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando Jetbrains Toolbox",
+            "loopVariables": [
+                {
+                    "version": "jetbrains-toolbox-2.6.2.41321"
+                }
+            ],
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "wget https://download-cdn.jetbrains.com/toolbox/{{version}}.tar.gz -O {{TMP_DIR}}/toolbox.tar.gz"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "tar -xf {{TMP_DIR}}/toolbox.tar.gz -C {{TMP_DIR}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mkdir -p {{APP_DIR}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mv {{TMP_DIR}}/{{version}}/jetbrains-toolbox {{APP_DIR}}"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando binarios de repositórios do github",
+            "loopVariables": [
+                {
+                    "name": "eza",
+                    "url": "https://github.com/eza-community/eza/releases/download/v0.21.3/eza_x86_64-unknown-linux-musl.tar.gz",
+                    "sourceBinPath": "eza",
+                    "tarStripComponents": "0"
+                },
+                {
+                    "name": "fzf",
+                    "url": "https://github.com/junegunn/fzf/releases/download/v0.62.0/fzf-0.62.0-linux_amd64.tar.gz",
+                    "sourceBinPath": "fzf",
+                    "tarStripComponents": "0"
+                },
+                {
+                    "name": "bat",
+                    "url": "https://github.com/sharkdp/bat/releases/download/v0.25.0/bat-v0.25.0-x86_64-unknown-linux-musl.tar.gz",
+                    "sourceBinPath": "bat",
+                    "tarStripComponents": "1"
+                },
+                {
+                    "name": "zoxide",
+                    "url": "https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.7/zoxide-0.9.7-x86_64-unknown-linux-musl.tar.gz",
+                    "sourceBinPath": "zoxide",
+                    "tarStripComponents": "0"
+                }
+            ],
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "wget {{url}} -O {{TMP_DIR}}/{{name}}.tar.gz"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mkdir -p {{APP_DIR}}/{{name}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "tar -xf {{TMP_DIR}}/{{name}}.tar.gz -C {{APP_DIR}}/{{name}} --strip-components {{tarStripComponents}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mkdir -p {{BIN_DIR}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "ln -s {{APP_DIR}}/{{name}}/{{sourceBinPath}} {{BIN_DIR}}/{{name}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "rm -rf {{TMP_DIR}}/{{name}}.tar.gz"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Instalando tema fish: Starship",
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "wget https://starship.rs/install.sh -O {{TMP_DIR}}/install.sh"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "chmod +x {{TMP_DIR}}/install.sh"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "{{TMP_DIR}}/install.sh --yes"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "rm -rf {{TMP_DIR}}/install.sh"
+                    }
+                }
+            ]
+        }
+    ]
+}
