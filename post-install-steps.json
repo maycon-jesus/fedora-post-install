@@ -260,6 +260,60 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Configurando dotfiles",
+            "loopVariables": [
+                {
+                    "dir": "{{HOME_DIR}}",
+                    "filename": ".gitconfig",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/1password.toml"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.ssh",
+                    "filename": "config",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/ssh"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.config/1Password/ssh",
+                    "filename": "agent.toml",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/1password.toml"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.config/fish",
+                    "filename": "config.fish",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/fish.fish"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.config/eza",
+                    "filename": "theme.yml",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/eza-theme.yml"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.config/fastfetch",
+                    "filename": "config.jsonc",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/fastfetch.jsonc"
+                },
+                {
+                    "dir": "{{HOME_DIR}}/.config",
+                    "filename": "starship.toml",
+                    "contentUrl": "https://raw.githubusercontent.com/maycon-jesus/fedora-post-install/refs/heads/main/.config/starship.toml"
+                }
+            ],
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mkdir -p {{dir}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "wget {{contentUrl}} -O {{dir}}/{{filename}}"
+                    }
+                }
+            ]
         }
     ]
 }
