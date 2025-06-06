@@ -314,6 +314,61 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Instalando NerdFonts",
+            "loopVariables": [
+                {
+                    "name": "Hack"
+                },
+                {
+                    "name": "FiraCode"
+                },
+                {
+                    "name": "Ubuntu"
+                },
+                {
+                    "name": "UbuntuMono"
+                },
+                {
+                    "name": "UbuntuSans"
+                },
+                {
+                    "name": "JetBrainsMono"
+                }
+            ],
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/{{name}}.zip -O {{TMP_DIR}}/{{name}}.zip"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "unzip \"{{TMP_DIR}}/{{name}}.zip\" -d {{TMP_DIR}}/{{name}}"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mkdir -p {{HOME_DIR}}/.local/share/fonts"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "mv {{TMP_DIR}}/{{name}}/**.ttf {{TMP_DIR}}/.local/share/fonts"
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "rm -rf {{TMP_DIR}}/{{name}}*"
+                    }
+                }
+            ]
         }
     ]
 }
