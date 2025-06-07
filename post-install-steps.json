@@ -359,7 +359,7 @@
                 {
                     "type": "custom-command",
                     "config": {
-                        "command": "mv {{TMP_DIR}}/{{name}}/**.ttf {{TMP_DIR}}/.local/share/fonts"
+                        "command": "mv {{TMP_DIR}}/{{name}}/**.ttf {{HOME_DIR}}/.local/share/fonts"
                     }
                 },
                 {
