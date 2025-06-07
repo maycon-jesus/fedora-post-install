@@ -359,7 +359,7 @@
                 {
                     "type": "custom-command",
                     "config": {
-                        "command": "sh -c 'mv {{TMP_DIR}}/{{name}}/*.ttf {{HOME_DIR}}/.local/share/fonts'"
+                        "command": "sh -c \"mv {{TMP_DIR}}/{{name}}/*.ttf {{HOME_DIR}}/.local/share/fonts\""
                     }
                 },
                 {
