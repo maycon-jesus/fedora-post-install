@@ -162,6 +162,12 @@
                     "config": {
                         "command": "mv {{TMP_DIR}}/{{version}}/jetbrains-toolbox {{APP_DIR}}"
                     }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "sh -c \"rm -rf {{TMP_DIR}}/{{version}} {{TMP_DIR}}/toolbox.tar.gz\""
+                    }
                 }
             ]
         },
@@ -365,7 +371,7 @@
                 {
                     "type": "custom-command",
                     "config": {
-                        "command": "rm -rf {{TMP_DIR}}/{{name}}*"
+                        "command": "sh -c \"rm -rf {{TMP_DIR}}/{{name}}*\""
                     }
                 }
             ]
