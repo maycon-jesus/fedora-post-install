@@ -369,6 +369,65 @@
                     }
                 }
             ]
+        },
+        {
+            "name": "Configurando GNOME",
+            "steps": [
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/desktop/interface/color-scheme \"'prefer-dark'\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/mutter/workspaces-only-on-primary \"false\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/desktop/datetime/automatic-timezone \"true\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/desktop/interface/clock-format \"'24h'\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gtk/settings/file-chooser/clock-format \"'24h'\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/software/download-updates \"true\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/Ptyxis/restore-session \"false\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/desktop/input-sources/sources \"[('xkb', 'br'), ('xkb', 'us+intl')]\""
+                    }
+                },
+                {
+                    "type": "custom-command",
+                    "config": {
+                        "command": "dconf write /org/gnome/desktop/peripherals/touchpad/speed \"0.20171673819742497\""
+                    }
+                }
+            ]
         }
     ]
 }
